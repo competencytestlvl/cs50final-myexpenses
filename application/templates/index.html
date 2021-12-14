@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    myEXPENSES Tracker - Summary
+{% endblock %}
+
+
+{% block main %}
+
+    <!--Include application table for user to see, which class is from bootstrap-->
+    <div class="col-xs-10 col-sm-6 col-md-6">
+        <h3>Summary</h3>
+        <br>
+    </div>
+    <table class="table table-hover table-striped table-dark">
+        <thead class="table-header">
+            <tr>
+                <th>No</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date Added</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for input in transactions %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{ input.type }}</td>
+                <td>{{ input.category }}</td>
+                <td>{{ input.amount }}</td>
+                <td>{{ input.date_added.strftime("%d-%m-%Y") }}</td>
+                <td><a href="{{ url_for('edit', input_id=input.id) }}" class="btn btn-light">Edit</a></td>
+                <td><a href="{{ url_for('delete', input_id=input.id) }}" class="btn btn-danger">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

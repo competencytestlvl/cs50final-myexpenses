@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    myEXPENSES Tracker - Login
+{% endblock %}
+
+
+{% block main %}
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <h3 align="center">Login</h3>
+    <br>
+    <form action="/login" method = "POST">
+        <fieldset class="form-group">
+            <legend class="mb-4"></legend>
+            {{ form.hidden_tag() }}
+            <div class="form-group text-warning font-weight-bold">
+                {{ form.username.label(class="form-control-label") }}
+                {{ form.username(class = "form-control form-control-md") }}
+            </div>
+
+            <div class="form-group text-warning font-weight-bold">
+                {{ form.password.label(class="form-control-label") }}
+                {{ form.password(class = "form-control form-control-md") }}
+            </div>
+
+            <div class="form-group text-warning font-weight-bold">
+                {{ form.confirmation.label(class="form-control-label") }}
+                {{ form.confirmation(class = "form-control form-control-md") }}
+            </div>
+
+            <br>
+            <div class="form-group border-bottom pb-3">
+            {{ form.submit(class="btn btn-lg btn-block btn-warning font-weight-bold") }}
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

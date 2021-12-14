@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    myEXPENSES Tracker - Update Expenses Details
+{% endblock %}
+
+{% block main %}
+<div class="col-xs-10 col-sm-6 col-md-6">
+    <h3>Add Expenses Details</h3>
+    <br>
+    <div class="card card-style mb-3">
+        <img class="card-img-top" src="static/logo.png" alt="Card image cap">
+        <div class="card-body">
+            <form action="" method="POST">
+                {{ form.csrf_token() }}
+                <fieldset class="form-group">
+                    <legend class="mb-4"></legend>
+                    <div class="form-group form-text">
+                        {{ form.amount.label(class="form-control-label") }}
+                        {% if form.amount.errors %}
+                        {{ form.amount(class="form-control form-control-sm is-invalid") }}
+                        {% for error in form.amount.errors %}
+                        <div class="invalid-feedback">
+                            <span>{{error}}</span>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.amount(class="form-control form-control-sm") }}
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group form-text">
+                        {{ form.type.label(class = "form-control-label") }}
+                        {{ form.type(class = "form-control form-control-sm") }}
+                    </div>
+
+                    <div class="form-group form-text">
+                        {{ form.category.label(class = "form-control-label") }}
+                        {{ form.category(class = "form-control form-control-sm") }}
+                    </div>
+
+                    <div class="form-group border-bottom pb-3">
+                        {{ form.submit(class="btn btn-lg btn-block btn-outline-info")}}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

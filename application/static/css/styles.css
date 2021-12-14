@@ -1,0 +1,67 @@
+h3 {
+    text-align: center;
+    margin-top: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+body {
+    background: #f4f4f4;
+    background-image: linear-gradient(to top left, #8a4592, #35b0a9);
+}
+
+p {
+    text-align: center;
+}
+
+.card {
+     border: 2.5px solid black;
+     text-align: center;
+ }
+
+.chart {
+    text-align: center;
+    margin: auto;
+}
+
+img {
+    border-bottom: 2.5px solid black;
+}
+
+a{
+  font-family: 'Montserrat', sans-serif;
+  color: #FF0000;
+  font-weight: bold;
+}
+
+.form-text{
+    color: #11999E;
+    font-weight: bold;
+}
+
+.bottom-container{
+  color: white;
+  padding-bottom: 50px;
+}
+
+.row {
+    margin-top: 60px;
+}
+
+.table-header{
+    background-color: #008b8b;
+}
+
+.underline-hover:hover {
+    text-decoration: underline;
+}
+
+.canvas-spec {
+    border: 2px solid black;
+}
+
+canvas {
+  background: #F5FFFA;
+}

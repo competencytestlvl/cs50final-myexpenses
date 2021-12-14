@@ -1,0 +1,273 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    myEXPENSES Tracker - Dashboard
+{% endblock %}
+
+
+{% block main %}
+    <div class="card-deck">
+      <div class="card text-white bg-success mb-6" style="max-width: 18rem;width: 155px;">
+      <div class="card-header"><strong>Avg<br/>Income</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">{{ average_income }}</h5>
+          <p class="card-text"></p>
+        </div>
+      </div>
+      <div class="card text-white bg-danger mb-6" style="max-width: 18rem;width: 155px">
+      <div class="card-header"><strong>Total<br/>Spend</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">{{ total_expenses }}</h5>
+          <p class="card-text"></p>
+        </div>
+      </div>
+      <div class="card text-white bg-warning mb-6" style="max-width: 18rem;width: 155px">
+      <div class="card-header"><strong>Total<br/>Balance</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">{{ total_balance }}</h5>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <!--CHART.JS-->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <canvas id="income_vs_category" class="canvas-spec" width="500" height="300"></canvas>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <canvas id="income_expenses" class="canvas-spec" width="500" height="300"></canvas>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <canvas id="timeline_expense" class="canvas-spec" width="500" height="300"></canvas>
+            <input onchange="filterData()" type="date" id="start_date">
+            <input onchange="filterData()" type="date" id="end_date">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <canvas id="expenses_vs_category" class="canvas-spec" width="500" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+{% block javascript %}
+<script>
+    let income_expenses_data = JSON.parse({{ income_expenses | tojson }});
+
+    let income_category_labels = JSON.parse({{ income_category | tojson }});
+    let income_category_data = JSON.parse({{ income_category_value | tojson}});
+
+    let expenses_category_labels = JSON.parse({{ expenses_category | tojson}});
+    let expenses_category_data = JSON.parse({{ expenses_category_value | tojson}});
+
+    let income_vs_expense_chart = new Chart(income_expenses, {
+        type: 'doughnut',
+        data: {
+        labels: ['expense', 'income'],
+            datasets: [{
+                label: "Income Vs Expenses",
+                data: income_expenses_data,
+                backgroundColor: ['rgb(255, 99, 132)', 'rgba(54, 162, 235, 0.4)', '#FAA43A', '#60BD68',
+                    '#B276B2', '#E16851'],
+
+                borderWidth: 2,
+                borderColor: '#777',
+                hoverBorderColor: "#000",
+                hoverBorderWidth: 3,
+                hoverBackgroundColor: 'rgba(00, 255, 00, 0.1)',
+                pointHoverRadius: 5
+            }],
+        },
+        options: {
+            responsive: false,
+            plugins:{
+                title: {
+                    text: "Income Vs Expenses",
+                    fontSize: 20,
+                    display: true
+                }
+            },
+            legend: {
+                position: "right",
+                    labels: {
+                    fontColor: "gray"
+                },
+                display: true,
+            },
+
+            elements: {
+                hitRadius: 3,
+            }
+        }
+    });
+
+    let income_vs_category_chart = new Chart(income_vs_category, {
+        type: 'bar',
+        data: {
+            labels: income_category_labels,
+            datasets: [{
+                label: "Categories Of Income",
+                data: income_category_data,
+                backgroundColor: ['#16a085', '#FAA43A', '#5DA5DA',
+                    '#B276B2', '#E16851', '#FB8267'],
+                borderWidth: 2,
+                borderColor: '#777',
+                hoverBorderColor: "#000",
+                hoverBorderWidth: 3,
+                hoverBackgroundColor: 'rgba(00, 255, 00, 0.1)',
+                pointHoverRadius: 5
+            }],
+        },
+        options: {
+            responsive: false,
+            plugins:{
+                title: {
+                    display: true,
+                    text: "Income Categories",
+                    fontSize: 20,
+                }
+            },
+            legend: {
+                position: "right",
+                labels: {
+                    fontColor: "gray"
+                },
+                display: true,
+            },
+
+            elements: {
+                hitRadius: 3,
+            }
+        }
+    });
+
+    let expenses_vs_category_chart = new Chart(expenses_vs_category, {
+        type: 'bar',
+        data: {
+            labels: expenses_category_labels,
+            datasets: [{
+                label: "Categories Of Expenses",
+                data: expenses_category_data,
+                backgroundColor: ['#FFEA88', '#878BB6', '#E16851',
+                    '#B276B2', '#FB8267', '#5DA5DA'],
+                borderWidth: 2,
+                borderColor: '#777',
+                hoverBorderColor: "#000",
+                hoverBorderWidth: 3,
+                hoverBackgroundColor: 'rgba(00, 255, 00, 0.1)',
+                pointHoverRadius: 5
+            }],
+        },
+        options: {
+            responsive: false,
+            plugins:{
+                title: {
+                    display: true,
+                    text: "Expenses Categories",
+                    fontSize: 20,
+                }
+            },
+            legend: {
+                position: "right",
+                labels: {
+                    fontColor: "gray"
+                },
+                display: true,
+            },
+
+            elements: {
+                hitRadius: 3,
+            }
+        }
+    });
+
+    let dates_labels = JSON.parse({{ date_expense_labels | tojson }});
+    let date_expenses_list  = JSON.parse({{ expense_values | tojson }});
+    let date_income_list  = JSON.parse({{ income_values | tojson }});
+
+    let expenses_timeline_chart = new Chart(document.getElementById("timeline_expense"), {
+        type: "line",
+        data:
+        {
+            labels: dates_labels,
+            datasets: [{
+                label: "Expenditure Over Time",
+                data: date_expenses_list,
+                fill: true,
+                backgroundColor: "rgba(75, 192, 192, 0.4)",
+                borderColor: "rgb(75, 192, 192)",
+                lineTension: 0.1
+            },
+            {
+                label: "Income Over Time",
+                data: date_income_list,
+                fill: false,
+                backgroundColor: "rgba(75, 75, 192, 0.4)",
+                borderColor: "rgba(75, 75, 192, 0.4)",
+                lineTension: 0.1
+            }
+            ]
+        },
+        options: {
+            responsive: false
+        },
+
+        scales: {
+          y: {
+            ticks: {
+              color: "white",
+              font: {
+                size: 15,
+              }
+            }
+          },
+
+          x: {
+            ticks: {
+              color: "white",
+              font: {
+                size: 14
+              },
+              stepSize: 1,
+              beginAtZero: true
+            }
+          }
+        },
+    });
+
+    function filterData() {
+        const dates_labels2 = [...dates_labels];
+        const start_date = document.getElementById('start_date');
+        const end_date = document.getElementById('end_date');
+
+        // get index number of array
+        const start_index = dates_labels2.indexOf(start_date.value);
+        const end_index = dates_labels2.indexOf(end_date.value);
+
+        // slice date array
+        const filterDate = dates_labels2.slice(start_index, end_index + 1);
+
+        // activate labels of chart according to filter
+        expenses_timeline_chart.config.data.labels = filterDate;
+
+        // update expenses data
+        const expense_data_new = [...date_expenses_list];
+        const filter_expense = expense_data_new.slice(start_index, end_index + 1);
+
+        // update income data
+        const income_data_new = [...date_income_list];
+        const filter_income = income_data_new.slice(start_index, end_index + 1);
+
+        expenses_timeline_chart.config.data.datasets[0].data = filter_expense;
+        expenses_timeline_chart.config.data.datasets[1].data = filter_income;
+
+        // update chart labels
+        expenses_timeline_chart.update();
+    }
+</script>
+{% endblock %}
+
+{% endblock %}
