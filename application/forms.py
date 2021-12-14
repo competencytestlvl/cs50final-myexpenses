@@ -52,9 +52,11 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField(label='Username', validators=[Length(min=4, max=60), InputRequired()],
                            render_kw={"placeholder": "Your username"})
-    password = PasswordField(label='Password', validators=[Length(min=4, max=60), InputRequired(),
-                                                           EqualTo('confirmation', message="Password needs to match")],
+    password = PasswordField(label='Password', validators=[Length(min=4, max=60), InputRequired()],
                              render_kw={"placeholder": "Your password"})
-    confirmation = PasswordField(label='Confirmation Password', validators=[Length(min=4, max=60), InputRequired()],
+    confirmation = PasswordField(label='Confirmation Password',
+                                 validators=[Length(min=4, max=60),
+                                             InputRequired(),
+                                             EqualTo('password', message="Password needs to match")],
                                  render_kw={"placeholder": "Your confirmation Password"})
     submit = SubmitField("Login")

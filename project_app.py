@@ -20,12 +20,11 @@ def index():
     current_id = current_user.id
     print(f"Current user: {current_id}")
     # Query transactions from database and return list
-    transactions = Expenses.query.order_by(Expenses.date_added.desc()).all()
 
-    transactions2 = Expenses.query.filter_by(user_id=current_id)
-    for item in transactions2:
-        print(item.amount)
-
+    # transactions = Expenses.query.order_by(Expenses.date_added.desc()).all()
+    transactions = Expenses.query.filter_by(user_id=current_id).order_by(Expenses.date_added.desc()).all()
+    for item in transactions:
+        print(f"{item.type}, {item.category}, {item.amount}, {item.date_added}")
     return render_template("index.html", transactions=transactions)
 
 
@@ -135,11 +134,13 @@ def edit(input_id):
 def dashboard():
     """Visualizes Data into interactive charts."""
 
+    current_id = current_user.id
+
     # Query the total income and expenses
     value_query = db.func.sum(Expenses.amount)
 
     # -----------DATA OF INCOME VS EXPENSES------------
-    income_expenses = db.session.query(value_query, Expenses.type).group_by(
+    income_expenses = db.session.query(value_query, Expenses.type).filter_by(user_id=current_id).group_by(
         Expenses.type).order_by(Expenses.type).all()
 
     earnings_expenses_list = []
@@ -149,8 +150,11 @@ def dashboard():
     print(f"{earnings_expenses_list}\n")
 
     # -----------DATA VS CATEGORY------------
-    category_comparison = db.session.query(value_query, Expenses.type, Expenses.category).group_by(
+    category_comparison = db.session.query(value_query,
+                                           Expenses.type,
+                                           Expenses.category).filter_by(user_id=current_id).group_by(
         Expenses.category).order_by(Expenses.category).all()
+
     # INCOME
     income_category_value = []
     income_category = []
@@ -178,7 +182,7 @@ def dashboard():
     # -----------DATA OF EXPENDITURE AND INCOME VS TIMELINE------------
     dates_added = db.session.query(value_query,
                                    Expenses.type,
-                                   Expenses.date_added).group_by(Expenses.date_added).order_by(
+                                   Expenses.date_added).filter_by(user_id=current_id).group_by(Expenses.date_added).order_by(
         Expenses.date_added).all()
 
     date_expenses_list = []
