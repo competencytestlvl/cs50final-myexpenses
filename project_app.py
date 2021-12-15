@@ -1,4 +1,4 @@
-from application.forms import DataForm, ExpensesDataForm, LoginForm, RegistrationForm
+from application.forms import DataForm, ExpensesDataForm, LoginForm, RegistrationForm, ConfirmationForm
 from application import create_app, db
 from application.item_models import Expenses, User
 from flask import flash, render_template, redirect, request, url_for
@@ -12,20 +12,38 @@ from werkzeug.security import check_password_hash, generate_password_hash
 app = create_app()
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 @login_required
 def index():
     """Directs to the main page of the app."""
 
+    # Create instance of confirmation pop-up form
+    pop_up = ConfirmationForm()
+    # Define current user's id
     current_id = current_user.id
     print(f"Current user: {current_id}")
-    # Query transactions from database and return list
 
+    # Query transactions from database and return list for specific user
     # transactions = Expenses.query.order_by(Expenses.date_added.desc()).all()
     transactions = Expenses.query.filter_by(user_id=current_id).order_by(Expenses.date_added.desc()).all()
     for item in transactions:
-        print(f"{item.type}, {item.category}, {item.amount}, {item.date_added}")
-    return render_template("index.html", transactions=transactions)
+        print(f"{item.id}: {item.type}, {item.category}, {item.amount}, {item.date_added}")
+
+    if request.method == "POST":
+        confirmation_prompt = request.form.get('confirmation_prompt')
+        confirmed_id = Expenses.query.filter_by(id=confirmation_prompt).first()
+        input_id = confirmed_id.id
+        print(input_id)
+        print(f"Transaction ID to delete: {confirmed_id}", type(input_id))
+
+        # Executes deletion route
+        delete(input_id)
+
+    else:
+        # if the request is "GET"
+        return render_template("index.html", transactions=transactions, confirmation_form=pop_up)
+
+    return redirect(url_for('index'))
 
 
 # -------------ADD INCOME-------------------
@@ -180,10 +198,9 @@ def dashboard():
     print(f"{expenses_category_value}\n")
 
     # -----------DATA OF EXPENDITURE AND INCOME VS TIMELINE------------
-    dates_added = db.session.query(value_query,
-                                   Expenses.type,
-                                   Expenses.date_added).filter_by(user_id=current_id).group_by(Expenses.date_added).order_by(
-        Expenses.date_added).all()
+
+    date_added_query = db.session.query(value_query, Expenses.type, Expenses.date_added).filter_by(user_id=current_id)
+    dates_added = date_added_query.group_by(Expenses.date_added).order_by(Expenses.date_added).all()
 
     date_expenses_list = []
     date_income_list = []

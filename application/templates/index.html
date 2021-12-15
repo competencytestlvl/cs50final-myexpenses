@@ -21,6 +21,7 @@
                 <th>Category</th>
                 <th>Amount</th>
                 <th>Date Added</th>
+                <th>INFO</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -28,14 +29,20 @@
 
         <tbody>
             {% for input in transactions %}
+            {% include 'helpers/modal.html' %}
             <tr>
                 <th scope="row">{{loop.index}}</th>
                 <td>{{ input.type }}</td>
                 <td>{{ input.category }}</td>
                 <td>{{ input.amount }}</td>
                 <td>{{ input.date_added.strftime("%d-%m-%Y") }}</td>
+                <td><a href="" class="btn btn-light"
+                       data-toggle="modal" data-target="#popup-{{ input.id }}">INFO</a></td>
                 <td><a href="{{ url_for('edit', input_id=input.id) }}" class="btn btn-light">Edit</a></td>
-                <td><a href="{{ url_for('delete', input_id=input.id) }}" class="btn btn-danger">Delete</a></td>
+                <td><a href="" class="btn btn-danger"
+                       data-toggle="modal" data-target="#prompt-{{ input.id }}">Delete</a></td>
+<!--                <td><a href="{{ url_for('delete', input_id=input.id) }}" class="btn btn-danger"-->
+<!--                       data-toggle="modal" data-target="#prompt-{{ input.id }}">Delete</a></td>-->
             </tr>
             {% endfor %}
         </tbody>

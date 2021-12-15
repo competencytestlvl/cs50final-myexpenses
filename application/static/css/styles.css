@@ -1,10 +1,11 @@
-h3 {
-    text-align: center;
-    margin-top: 0;
-    font-family: 'Montserrat', sans-serif;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
+a {
+  font-family: 'Montserrat', sans-serif;
+  color: #FF0000;
+  font-weight: bold;
+}
+
+.alert-text {
+    color: red;
 }
 
 body {
@@ -12,8 +13,17 @@ body {
     background-image: linear-gradient(to top left, #8a4592, #35b0a9);
 }
 
-p {
-    text-align: center;
+.bottom-container{
+  color: white;
+  padding-bottom: 50px;
+}
+
+canvas {
+  background: #F5FFFA;
+}
+
+.canvas-spec {
+    border: 2px solid black;
 }
 
 .card {
@@ -26,24 +36,26 @@ p {
     margin: auto;
 }
 
-img {
-    border-bottom: 2.5px solid black;
-}
-
-a{
-  font-family: 'Montserrat', sans-serif;
-  color: #FF0000;
-  font-weight: bold;
-}
-
-.form-text{
+.form-text {
     color: #11999E;
     font-weight: bold;
 }
 
-.bottom-container{
-  color: white;
-  padding-bottom: 50px;
+h3 {
+    text-align: center;
+    margin-top: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+img {
+    border-bottom: 2.5px solid black;
+}
+
+p {
+    text-align: center;
 }
 
 .row {
@@ -56,12 +68,4 @@ a{
 
 .underline-hover:hover {
     text-decoration: underline;
-}
-
-.canvas-spec {
-    border: 2px solid black;
-}
-
-canvas {
-  background: #F5FFFA;
 }

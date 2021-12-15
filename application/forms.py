@@ -60,3 +60,7 @@ class LoginForm(FlaskForm):
                                              EqualTo('password', message="Password needs to match")],
                                  render_kw={"placeholder": "Your confirmation Password"})
     submit = SubmitField("Login")
+
+
+class ConfirmationForm(FlaskForm):
+    submit = SubmitField("Accept")
