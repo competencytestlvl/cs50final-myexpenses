@@ -12,12 +12,20 @@
               integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
               crossorigin="anonymous">
 
+        <!-- FONT-AWESOME CDN -->
+
+        <link rel="stylesheet"
+              href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+              integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+              crossorigin="anonymous">
+
         <!--OUR EXTERNAL CSS (TODO)-->
         <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
         <!-- https://favicon.io/emoji-favicons/money-mouth-face/ -->
         <link href="/static/money.png" rel="icon">
+
         <!--Chart.js library-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <title>
@@ -50,16 +58,22 @@
                 <!--if user is logged in-->
                 {% if current_user.is_authenticated %}
                 <ul class="navbar-nav mr-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                    <li class="nav-item"><a class="nav-link underline-hover" href="/add_income">Add Income</a></li>
-                    <li class="nav-item"><a class="nav-link underline-hover" href="/add_expenses">Add Expenses</a></li>
-                    <li class="nav-item"><a class="nav-link underline-hover" href="/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">
+                        <i class="fa fa-toggle-on" aria-hidden="true"></i> Logout</a></li>
+                    <li class="nav-item"><a class="nav-link underline-hover" href="/add_income">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Add Income</a></li>
+                    <li class="nav-item"><a class="nav-link underline-hover" href="/add_expenses">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i> Add Expenses</a></li>
+                    <li class="nav-item"><a class="nav-link underline-hover" href="/dashboard">
+                        <i class="fa fa-university" aria-hidden="true"></i> Dashboard</a></li>
                 </ul>
                 <!--if user is not logged in-->
                 {% else %}
                 <ul class="navbar-nav ml-auto mt-2">
-                    <li class="nav-item"><a class="nav-link underline-hover" href="{{ url_for('register') }}">Register</a></li>
-                    <li class="nav-item"><a class="nav-link underline-hover" href="/login">Log In</a></li>
+                    <li class="nav-item"><a class="nav-link underline-hover" href="{{ url_for('register') }}">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> Register</a></li>
+                    <li class="nav-item"><a class="nav-link underline-hover" href="/login">
+                        <i class="fa fa-unlock" aria-hidden="true"></i> Log In</a></li>
                 </ul>
                 {% endif %}
             </div>

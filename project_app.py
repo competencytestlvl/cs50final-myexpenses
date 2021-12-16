@@ -21,20 +21,15 @@ def index():
     pop_up = ConfirmationForm()
     # Define current user's id
     current_id = current_user.id
-    print(f"Current user: {current_id}")
 
     # Query transactions from database and return list for specific user
     # transactions = Expenses.query.order_by(Expenses.date_added.desc()).all()
     transactions = Expenses.query.filter_by(user_id=current_id).order_by(Expenses.date_added.desc()).all()
-    for item in transactions:
-        print(f"{item.id}: {item.type}, {item.category}, {item.amount}, {item.date_added}")
 
     if request.method == "POST":
         confirmation_prompt = request.form.get('confirmation_prompt')
         confirmed_id = Expenses.query.filter_by(id=confirmation_prompt).first()
         input_id = confirmed_id.id
-        print(input_id)
-        print(f"Transaction ID to delete: {confirmed_id}", type(input_id))
 
         # Executes deletion route
         delete(input_id)
@@ -109,7 +104,7 @@ def edit(input_id):
 
     # Query db for matching id
     item_to_edit = Expenses.query.get_or_404(input_id)
-    print(item_to_edit.id)
+
     # Show form based on transaction type - income
     if item_to_edit.type == "income":
         form = DataForm()
@@ -164,8 +159,6 @@ def dashboard():
     earnings_expenses_list = []
     for grand_total, _ in income_expenses:
         earnings_expenses_list.append(grand_total)
-        print(f"{grand_total}, {_}")
-    print(f"{earnings_expenses_list}\n")
 
     # -----------DATA VS CATEGORY------------
     category_comparison = db.session.query(value_query,
@@ -180,22 +173,15 @@ def dashboard():
     # EXPENSES
     expenses_category_value = []
     expenses_category = []
+
     for amounts, category_type, description in category_comparison:
         if category_type == "income":
             income_category_value.append(amounts)
             income_category.append(description)
-            print(f"{amounts}, {category_type}, {description}")
         else:
             # In case the transaction is an expense
             expenses_category_value.append(amounts)
             expenses_category.append(description)
-            print(f"{amounts}, {category_type}, {description}")
-
-    print(income_category)
-    print(f"{income_category_value}\n")
-
-    print(expenses_category)
-    print(f"{expenses_category_value}\n")
 
     # -----------DATA OF EXPENDITURE AND INCOME VS TIMELINE------------
 
@@ -222,18 +208,21 @@ def dashboard():
     # Group expense data and labels into dedicated list
     z = zip(date_timeline_list, date_expenses_list)
     r = [(k, sum(int(i[1]) for i in v)) for k, v in groupby(z, key=itemgetter(0))]
-    date_expense_labels, expense_values = map(list, zip(*r))
 
-    print(f"{date_expense_labels}")
-    print(f"{expense_values}\n")
+    # Handle in case no expenses made yet
+    if len(date_timeline_list) == 0:
+        flash("You can't view the dashboard as you don't have any transactions yet.\n"
+              "Please go to the 'Add Expenses' or 'Add Income' page to add data.",
+              category='error')
+        return redirect(url_for('index'))
+
+    # Generate iterator function
+    date_expense_labels, expense_values = map(list, zip(*r))
 
     # Group income data and labels into dedicated list
     x = zip(date_timeline_list, date_income_list)
     y = [(k, sum(int(j[1]) for j in c)) for k, c in groupby(x, key=itemgetter(0))]
     date_income_labels, income_values = map(list, zip(*y))
-
-    print(f"{date_income_labels}")
-    print(income_values)
 
     # -------- Other data aggregation -----------
     total_income = sum(income_category_value)
@@ -262,10 +251,14 @@ def dashboard():
 @app.route('/login', methods=["POST", "GET"])
 def login():
     """Login user"""
+
+    # Instantiate login form
     form = LoginForm()
+    username = form.username.data
+
     if form.validate_on_submit():
         # Query database for username and validate form submission
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=username).first()
         # if user exists
         if user:
             # Compare hashed password from submission to database password
@@ -297,6 +290,7 @@ def register():
 
     form = RegistrationForm()
     username = form.username.data
+
     # POST Request
     if form.validate_on_submit():
         user = User.query.filter_by(username=username).first()
@@ -305,7 +299,6 @@ def register():
             hashed_password = generate_password_hash(form.password.data, "sha256")
             # Create instance of new user
             user = User(username=username, password=hashed_password)
-            print(user.username, user.password)
             db.session.add(user)
             db.session.commit()
 
@@ -315,6 +308,7 @@ def register():
         flash("User added successfully", category="success")
         # Redirect user to login page upon successful sign up
         return redirect(url_for('login'))
+
     # GET request
     return render_template("register.html", form=form)
 

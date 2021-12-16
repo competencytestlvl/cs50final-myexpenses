@@ -9,24 +9,30 @@
 {% block main %}
     <div class="card-deck">
       <div class="card text-white bg-success mb-6" style="max-width: 18rem;width: 155px;">
-      <div class="card-header"><strong>Avg<br/>Income</strong></div>
+      <div class="card-header">
+          <strong>Avg<br/>Income</strong>
+      </div>
         <div class="card-body">
-          <h5 class="card-title">{{ average_income }}</h5>
-          <p class="card-text"></p>
+            <i class="fa fa-calculator" aria-hidden="true"></i>
+            <h5 class="card-title">${{ average_income }}</h5>
         </div>
       </div>
       <div class="card text-white bg-danger mb-6" style="max-width: 18rem;width: 155px">
-      <div class="card-header"><strong>Total<br/>Spend</strong></div>
+      <div class="card-header">
+          <strong>Total<br/>Spend</strong>
+      </div>
         <div class="card-body">
-          <h5 class="card-title">{{ total_expenses }}</h5>
-          <p class="card-text"></p>
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+            <h5 class="card-title">${{ total_expenses }}</h5>
         </div>
       </div>
       <div class="card text-white bg-warning mb-6" style="max-width: 18rem;width: 155px">
-      <div class="card-header"><strong>Total<br/>Balance</strong></div>
+      <div class="card-header">
+          <strong>Total<br/>Balance</strong>
+      </div>
         <div class="card-body">
-          <h5 class="card-title">{{ total_balance }}</h5>
-          <p class="card-text"></p>
+            <i class="fa fa-balance-scale" aria-hidden="true"></i>
+            <h5 class="card-title">${{ total_balance }}</h5>
         </div>
       </div>
     </div>

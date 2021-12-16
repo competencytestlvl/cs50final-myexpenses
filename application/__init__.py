@@ -32,6 +32,7 @@ def create_app():
 
     login_manager = LoginManager()
     login_manager.login_view = 'login'
+    login_manager.login_message = 'You Must Login to use the myEXPENSES app!'
     login_manager.init_app(app)
 
     @login_manager.user_loader

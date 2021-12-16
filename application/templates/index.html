@@ -21,9 +21,9 @@
                 <th>Category</th>
                 <th>Amount</th>
                 <th>Date Added</th>
-                <th>INFO</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -34,15 +34,21 @@
                 <th scope="row">{{loop.index}}</th>
                 <td>{{ input.type }}</td>
                 <td>{{ input.category }}</td>
-                <td>{{ input.amount }}</td>
+                <td>${{ input.amount }}</td>
                 <td>{{ input.date_added.strftime("%d-%m-%Y") }}</td>
+
                 <td><a href="" class="btn btn-light"
-                       data-toggle="modal" data-target="#popup-{{ input.id }}">INFO</a></td>
-                <td><a href="{{ url_for('edit', input_id=input.id) }}" class="btn btn-light">Edit</a></td>
-                <td><a href="" class="btn btn-danger"
-                       data-toggle="modal" data-target="#prompt-{{ input.id }}">Delete</a></td>
-<!--                <td><a href="{{ url_for('delete', input_id=input.id) }}" class="btn btn-danger"-->
-<!--                       data-toggle="modal" data-target="#prompt-{{ input.id }}">Delete</a></td>-->
+                       data-toggle="modal" data-target="#popup-{{ input.id }}">
+                    <i class="fa fa-info" aria-hidden="true"></i></a>
+                </td>
+
+                <td><a href="{{ url_for('edit', input_id=input.id) }}" class="btn btn-light">
+                   <i class="fa fa-wrench" aria-hidden="true"></i> Edit</a>
+                </td>
+
+                <td><a class="btn btn-danger" href="" data-toggle="modal" data-target="#prompt-{{ input.id }}">
+                    <i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
