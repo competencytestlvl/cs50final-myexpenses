@@ -1,11 +1,12 @@
 a {
-  font-family: 'Montserrat', sans-serif;
-  color: #FF0000;
-  font-weight: bold;
+    color: #FF0000;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
 
 .alert-text {
     color: red;
+    font-weight: bold;
 }
 
 body {
@@ -14,12 +15,12 @@ body {
 }
 
 .bottom-container{
-  color: white;
-  padding-bottom: 50px;
+    color: white;
+    padding-bottom: 50px;
 }
 
 canvas {
-  background: #F5FFFA;
+    background: #F5FFFA;
 }
 
 .canvas-spec {
@@ -32,8 +33,8 @@ canvas {
  }
 
 .chart {
-    text-align: center;
     margin: auto;
+    text-align: center;
 }
 
 .form-text {
@@ -42,12 +43,12 @@ canvas {
 }
 
 h3 {
-    text-align: center;
-    margin-top: 0;
-    font-family: 'Montserrat', sans-serif;
     color: white;
     font-size: 40px;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    text-align: center;
 }
 
 img {

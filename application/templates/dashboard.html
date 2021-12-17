@@ -1,63 +1,58 @@
 {% extends "layout.html" %}
-
-
 {% block title %}
-    myEXPENSES Tracker - Dashboard
+myEXPENSES Tracker - Dashboard
 {% endblock %}
-
-
 {% block main %}
-    <div class="card-deck">
-      <div class="card text-white bg-success mb-6" style="max-width: 18rem;width: 155px;">
+<div class="card-deck">
+   <div class="card text-white bg-success mb-6" style="max-width: 18rem;width: 155px;">
       <div class="card-header">
-          <strong>Avg<br/>Income</strong>
+         <strong>Avg<br/>Income</strong>
       </div>
-        <div class="card-body">
-            <i class="fa fa-calculator" aria-hidden="true"></i>
-            <h5 class="card-title">${{ average_income }}</h5>
-        </div>
+      <div class="card-body">
+         <i class="fa fa-calculator" aria-hidden="true"></i>
+         <h5 class="card-title">${{ average_income }}</h5>
       </div>
-      <div class="card text-white bg-danger mb-6" style="max-width: 18rem;width: 155px">
+   </div>
+   <div class="card text-white bg-danger mb-6" style="max-width: 18rem;width: 155px">
       <div class="card-header">
-          <strong>Total<br/>Spend</strong>
+         <strong>Total<br/>Spend</strong>
       </div>
-        <div class="card-body">
-            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-            <h5 class="card-title">${{ total_expenses }}</h5>
-        </div>
+      <div class="card-body">
+         <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+         <h5 class="card-title">${{ total_expenses }}</h5>
       </div>
-      <div class="card text-white bg-warning mb-6" style="max-width: 18rem;width: 155px">
+   </div>
+   <div class="card text-white bg-warning mb-6" style="max-width: 18rem;width: 155px">
       <div class="card-header">
-          <strong>Total<br/>Balance</strong>
+         <strong>Total<br/>Balance</strong>
       </div>
-        <div class="card-body">
-            <i class="fa fa-balance-scale" aria-hidden="true"></i>
-            <h5 class="card-title">${{ total_balance }}</h5>
-        </div>
+      <div class="card-body">
+         <i class="fa fa-balance-scale" aria-hidden="true"></i>
+         <h5 class="card-title">${{ total_balance }}</h5>
       </div>
-    </div>
-
-    <!--CHART.JS-->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <canvas id="income_vs_category" class="canvas-spec" width="500" height="300"></canvas>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <canvas id="income_expenses" class="canvas-spec" width="500" height="300"></canvas>
-        </div>
+   </div>
+</div>
+<!--CHART.JS-->
+<div class="container">
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+         <canvas id="income_vs_category" class="canvas-spec" width="500" height="300"></canvas>
       </div>
-      <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <canvas id="timeline_expense" class="canvas-spec" width="500" height="300"></canvas>
-            <input onchange="filterData()" type="date" id="start_date">
-            <input onchange="filterData()" type="date" id="end_date">
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <canvas id="expenses_vs_category" class="canvas-spec" width="500" height="300"></canvas>
-        </div>
+      <div class="col-md-6 col-sm-6 col-xs-12">
+         <canvas id="income_expenses" class="canvas-spec" width="500" height="300"></canvas>
       </div>
-    </div>
+   </div>
+   <div class="row">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+         <canvas id="timeline_expense" class="canvas-spec" width="500" height="300"></canvas>
+         <input onchange="filterData()" type="date" id="start_date">
+         <input onchange="filterData()" type="date" id="end_date">
+      </div>
+      <div class="col-md-6 col-sm-6 col-xs-12">
+         <canvas id="expenses_vs_category" class="canvas-spec" width="500" height="300"></canvas>
+      </div>
+   </div>
+</div>
 
 {% block javascript %}
 <script>
