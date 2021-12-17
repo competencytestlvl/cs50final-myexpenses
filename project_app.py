@@ -1,5 +1,5 @@
-from application.forms import DataForm, ExpensesDataForm, LoginForm, RegistrationForm, ConfirmationForm
 from application import create_app, db
+from application.forms import DataForm, ExpensesDataForm, LoginForm, RegistrationForm, ConfirmationForm
 from application.item_models import Expenses, User
 from flask import flash, render_template, redirect, request, url_for
 from flask_login import current_user, login_user, logout_user, login_required
@@ -23,7 +23,6 @@ def index():
     current_id = current_user.id
 
     # Query transactions from database and return list for specific user
-    # transactions = Expenses.query.order_by(Expenses.date_added.desc()).all()
     transactions = Expenses.query.filter_by(user_id=current_id).order_by(Expenses.date_added.desc()).all()
 
     if request.method == "POST":
@@ -53,6 +52,7 @@ def add_income():
         inputs = Expenses(type=form.type.data,
                           category=form.category.data,
                           amount=form.amount.data,
+                          note=form.note.data,
                           user_id=current_user.id)
 
         db.session.add(inputs)
@@ -74,6 +74,7 @@ def add_expenses():
         expense_inputs = Expenses(type=expense_form.type.data,
                                   category=expense_form.category.data,
                                   amount=expense_form.amount.data,
+                                  note=expense_form.note.data,
                                   user_id=current_user.id)
         db.session.add(expense_inputs)
         db.session.commit()
@@ -113,6 +114,7 @@ def edit(input_id):
             item_to_edit.type = form.type.data
             item_to_edit.amount = form.amount.data
             item_to_edit.category = form.category.data
+            item_to_edit.note = form.note.data
             # Commit changes to database
             db.session.commit()
             flash("Record has been updated.", category='success')
@@ -122,6 +124,7 @@ def edit(input_id):
         form.type.data = item_to_edit.type
         form.category.data = item_to_edit.category
         form.amount.data = item_to_edit.amount
+        form.note.data = item_to_edit.note
         return render_template('edit.html', form=form)
 
     else:
@@ -132,6 +135,7 @@ def edit(input_id):
             item_to_edit.type = form.type.data
             item_to_edit.amount = form.amount.data
             item_to_edit.category = form.category.data
+            item_to_edit.note = form.note.data
             # Commit changes to database
             db.session.commit()
             flash("Record has been edited", category='success')
@@ -140,6 +144,7 @@ def edit(input_id):
         form.type.data = item_to_edit.type
         form.category.data = item_to_edit.category
         form.amount.data = item_to_edit.amount
+        form.note.data = item_to_edit.note
         return render_template('edit.html', form=form)
 
 
@@ -184,7 +189,6 @@ def dashboard():
             expenses_category.append(description)
 
     # -----------DATA OF EXPENDITURE AND INCOME VS TIMELINE------------
-
     date_added_query = db.session.query(value_query, Expenses.type, Expenses.date_added).filter_by(user_id=current_id)
     dates_added = date_added_query.group_by(Expenses.date_added).order_by(Expenses.date_added).all()
 
@@ -305,7 +309,7 @@ def register():
         # Clear form fields
         form.username.data = ''
         form.password.data = ''
-        flash("User added successfully", category="success")
+        flash("User added successfully. Please login to begin using the app.", category="success")
         # Redirect user to login page upon successful sign up
         return redirect(url_for('login'))
 

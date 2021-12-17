@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, EqualTo, InputRequired, Length
+from wtforms.widgets import TextArea
 
 
 class DataForm(FlaskForm):
@@ -16,7 +17,8 @@ class DataForm(FlaskForm):
                                     ('other income', 'other income')
                                     ])
 
-    amount = IntegerField("Amount", validators=[DataRequired()])
+    amount = IntegerField("Amount ($)", validators=[DataRequired()])
+    note = StringField("Description (optional)", validators=[Length(max=250)], default='', widget=TextArea())
     submit = SubmitField("Submit")
 
 
@@ -34,7 +36,8 @@ class ExpensesDataForm(FlaskForm):
                                     ('other expenses', 'other expenses')
                                     ])
 
-    amount = IntegerField("Amount", validators=[DataRequired()])
+    amount = IntegerField("Amount ($)", validators=[DataRequired()])
+    note = StringField("Description (optional)", validators=[Length(max=250)], default='', widget=TextArea())
     submit = SubmitField("Submit")
 
 
