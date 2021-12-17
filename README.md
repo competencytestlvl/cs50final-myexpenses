@@ -8,7 +8,10 @@ The application used Python3 and incorporates the open-source Flask framework fo
 
 ## Background
 ### How did the project idea come about?
-  The motivation for the project was to create a web app that will simplify daily expenses and income tracking activities into a dedicated platform. The problem to solve was to visualize such daily transactions (expenses and income) into a dashboard so that users can better understand their income and expenses behaviour. For example, the use of a combination of cards and charts were necessary to aggregate and provide insights to the data submitted by users for each income/expense entry. Users typically want to have some degree of interaction with their data hence, this project solves that problem by allowing users to for example, filter dates "from" and "to" of when they made the entry and the option to either view income or expenses data.
+The motivation for the project was to create a web app that will simplify daily expenses and income tracking activities into a dedicated platform. 
+
+### Problem to solve
+The problem to solve was to visualize such daily transactions (expenses and income) into a dashboard so that users can better understand their income and expenses behaviour. For example, the use of a combination of cards and charts were necessary to aggregate and provide insights to the data submitted by users for each income/expense entry. Users typically want to have some degree of interaction with their data hence, this project solves that problem by allowing users to access a variety of programmed features such as filters of dates "from" and "to" of when they made the entry and the option to either view income or expenses data. Validations prompts were included in the form of modals to ensure user's do not accidentally delete a record unintentionally. Furthermore, users may choose to edit their expense/income data, which is enabled in the home page, upon logging into the app.
 
 ### Tech Stacks/ Resources Used
 - Python
@@ -20,7 +23,7 @@ The application used Python3 and incorporates the open-source Flask framework fo
 - HTML
 
 ### Design Choices
-  - Object-Oriented Programming (OOP) -  To instantiate objects based on classes for the various database models and web forms. This assisted in improving usability and reducing unnecessary lines of code.
+  - Object-Oriented Programming (OOP) - To instantiate objects based on classes for the various database models and web forms. This assisted in improving usability and reducing unnecessary lines of code.
   - Data Visualization - Chart.js was used as it is an open-source JavaScript library that produces interactive charts for data visualization. It supports various chart types such as bar, line, area, pie (doughnut) etc. Other visualization tools such as Matplotlib and plotly were considered however, due to the simplicity, well written documentation and responsiveness of Chart.js, it was chosen for this project.
  - Database Design - Object-relational mapping with the Flask SQLAlchemy library, to map object parameters to the structure of a layer RDBMS table. CRUD operations are able to be executed without writing raw SQL statements.
 
@@ -52,10 +55,11 @@ The flow of the application starts from the user running the app from their comm
   
 ### Directory Structure
 ```  
-├── application             # Contains the main project files
-  ├── static                # Contains styling files
+├── application             # Contains the main project files and database
+  ├── static                # Contains logos and static images
     ├── css                 # Contains external stylesheets
   ├── templates             # Contains templates for each page of the application
     ├── helpers             # Contains template for modals (pop-up boxes)
-├── screenshots             # Constains screenshots of the working application
+├── screenshots             # Contains screenshots of the working application
 ```
+  
