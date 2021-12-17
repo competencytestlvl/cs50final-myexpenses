@@ -1,5 +1,5 @@
 # myEXPENSES Tracker
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://www.youtube.com/watch?v=e4BPP7cb0MU
 #### Description:
 This project is an expenses and income tracking app that allows users to post daily expenses and/or income.
 The application used Python3 and incorporates the open-source Flask framework for web-app logic. The project is part of my submission to Harvard University's [CS50](https://www.edx.org/course/introduction-computer-science-harvardx-cs50x) final project. 
